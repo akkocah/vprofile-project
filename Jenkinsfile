@@ -15,13 +15,13 @@ pipeline{
         NEXUS_PORT = '8081'
         NEXUS_GRP_REPO = 'vpro-maven-group'
         NEXUS_LOGIN = 'nexuslogin'
-        #NEXUS_VERSION = "nexus3"
+        /** #NEXUS_VERSION = "nexus3"
         #NEXUS_PROTOCOL = "http"
         #NEXUS_URL = "172.31.86.22:8081"
         #NEXUS_REPOSITORY = "vprofile-release"
 	    #NEXUS_REPOGRP_ID    = "vprofile-grp-repo"
         #NEXUS_CREDENTIAL_ID = "nexuslogin"
-        #ARTVERSION = "${env.BUILD_ID}"
+        #ARTVERSION = "${env.BUILD_ID}" **/
     }
 
     stages{
