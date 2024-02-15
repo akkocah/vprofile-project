@@ -15,6 +15,9 @@ pipeline{
         NEXUSPORT = '8081'
         NEXUS_GRP_REPO = 'vpro-maven-group'
         NEXUS_LOGIN = 'nexuslogin'
+        registryCredential = 'ecr:us-east-1:awscreds'
+        appRegistry = '724871244416.dkr.ecr.us-east-1.amazonaws.com/vprofileappimg'
+        vprofileRegistry = "https://724871244416.dkr.ecr.us-east-1.amazonaws.com"
         /** #NEXUS_VERSION = "nexus3"
         #NEXUS_PROTOCOL = "http"
         #NEXUS_URL = "172.31.86.22:8081"
@@ -108,6 +111,25 @@ pipeline{
                   ]
                 )
             }
+        }
+
+        stage("Build App Image") {
+            steps {
+                script {
+                    dockerImage = docker.build( appRegistry+ ":$BUILD_NUMBER","./Docker-files/app/multistage/")
+                }
+            }
+        }
+
+        stage('Upload App Image') {
+          steps{
+            script {
+              docker.withRegistry( vprofileRegistry, registryCredential ) {
+                dockerImage.push("$BUILD_NUMBER")
+                dockerImage.push('latest')
+              }
+            }
+          }
         }
     }
 }
